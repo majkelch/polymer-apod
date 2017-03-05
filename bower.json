@@ -1,0 +1,20 @@
+{
+  "name": "polymer-apod",
+  "homepage": "https://github.com/majkelch/polymer-apod",
+  "authors": [
+    "michal.chrusciel <michal.chrusciel@4smartit.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "^1.8.1"
+  }
+}
