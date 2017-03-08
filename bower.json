@@ -2,7 +2,7 @@
   "name": "polymer-apod",
   "homepage": "https://github.com/majkelch/polymer-apod",
   "authors": [
-    "michal.chrusciel <michal.chrusciel@4smartit.com>"
+    "michal.chrusciel <majkelch@gmail.com>"
   ],
   "description": "",
   "main": "",
@@ -17,6 +17,11 @@
   "dependencies": {
     "polymer": "^1.8.1",
     "iron-ajax": "^1.4.3",
-    "app-layout": "^0.10.7"
+    "app-layout": "^0.10.7",
+    "paper-icon-button": "^1.1.4",
+    "iron-pages": "^1.0.8",
+    "iron-icons": "^1.2.0",
+    "paper-input": "^1.1.23",
+    "app-route": "PolymerElements/app-route#^0.9.3"
   }
 }

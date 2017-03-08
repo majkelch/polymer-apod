@@ -1,0 +1,59 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+
+
+<dom-module id="today-apod">
+  <template>
+    <style>
+      :host {
+        display: block;
+
+        padding: 10px;
+      }
+    </style>
+
+    <div class="card">
+        <iron-ajax
+            auto
+            url='https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY'
+            loading="{{loading}}"
+            last-response="{{ajaxResponse}}"
+        ></iron-ajax>
+
+        <div hidden$="{{loading}}">
+            to jest tekst zeby zobaczyć
+                <h2>{{ajaxResponse.title}}</h2>
+                <p>{{ajaxResponse.date}}</p>
+                <p>{{ajaxResponse.explanation}}</p>
+                <p><img src="{{ajaxResponse.url}}"></p>
+        </div>
+    </div>
+
+  </template>
+
+  <script>
+    Polymer({
+      is: 'today-apod',
+
+
+      setajax: function () {
+          console.log('this.$', this.$);
+          this.$.xhr.send({
+              url: 'https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY'
+          });
+        },
+        hresponse: function(request) {
+          console.log(request.detail.response);
+          console.log(this.$.ajax.lastResponse);
+      },
+        handleResponse: function(response) {
+            console.log('handleResponse', response);
+        },
+        ajaxResponse: function(response) {
+            console.log('response', response);
+            this.loading = false;
+
+        }
+    });
+  </script>
+</dom-module>

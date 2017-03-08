@@ -1,39 +1,124 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
-<link rel="import" href="/bower_components/app-layout/app-layout.html">
+<link rel="import" href="../bower_components/app-layout/app-layout.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/app-route/app-route.html">
+<link rel="import" href="../bower_components/app-route/app-location.html">
+<link rel="import" href="../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../bower_components/iron-selector/iron-selector.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
 
 <dom-module id="polymer-apod">
     <template>
 
     <style>
-        body {
-            /* No margin on body so toolbar can span the screen */
-            margin: 0;
-        }
-        app-toolbar {
-            /* Toolbar is the main header, so give it some color */
-            background-color: #1E88E5;
-            font-family: 'Roboto', Helvetica, sans-serif;
-            color: white;
-            --app-toolbar-font-size: 24px;
-        }
-        app-drawer {
-            --app-drawer-content-container: {
-                box-shadow: 1px 0 2px 1px rgba(0,0,0,0.18);
-            }
-            --app-drawer-scrim-background: rgba(179, 157, 219, 0.5);
-        }
+      :host {
+        --app-primary-color: #4285f4;
+        --app-secondary-color: black;
+
+        display: block;
+      }
+
+      app-header {
+        color: #fff;
+        background-color: var(--app-primary-color);
+      }
+      app-header paper-icon-button {
+        --paper-icon-button-ink-color: white;
+      }
+
+      .drawer-list {
+        margin: 0 20px;
+      }
+
+      .drawer-list a {
+        display: block;
+        padding: 0 16px;
+        text-decoration: none;
+        color: var(--app-secondary-color);
+        line-height: 40px;
+      }
+
+      .drawer-list a.iron-selected {
+        color: black;
+        font-weight: bold;
+      }
     </style>
 
-    <app-toolbar>
-        <paper-icon-button icon="menu"></paper-icon-button>
-        <div main-title>Polymer APOD</div>
-    </app-toolbar>
+    <app-location route="{{route}}"></app-location>
+    <app-route
+        route="{{route}}"
+        pattern="/:page"
+        data="{{routeData}}"
+        tail="{{subroute}}">
+    </app-route>
+
+    <app-drawer-layout>
+
+      <app-drawer>
+          <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
+            <a name="today-apod" href="/today-apod">Today's APOD</a>
+            <a name="view2" href="/view2">View Two</a>
+            <a name="view3" href="/view3">View Three</a>
+          </iron-selector>
+      </app-drawer>
+
+      <app-header-layout>
+        <app-header>
+          <app-toolbar>
+            <paper-icon-button icon="menu" drawer-toggle></paper-icon-button>
+            <div main-title>App name</div>
+          </app-toolbar>
+        </app-header>
+
+        <iron-pages
+            selected="[[page]]"
+            attr-for-selected="name"
+            fallback-selection="view404"
+            role="main">
+          <today-apod name="today-apod"></today-apod>
+          <my-view2 name="view2"></my-view2>
+          <my-view3 name="view3"></my-view3>
+          <my-view404 name="view404"></my-view404>
+        </iron-pages>
+      </app-header-layout>
+
+    </app-drawer-layout>
+
+
 </template>
 
 <script>
-Polymer({
-    is: 'polymer-apod'
-});
+    Polymer({
+        is: 'polymer-apod',
+        properties: {
+          page: {
+            type: String,
+            reflectToAttribute: true,
+            observer: '_pageChanged',
+          },
+        },
+
+        observers: [
+          '_routePageChanged(routeData)'
+        ],
+
+
+        _routePageChanged: function(routeData) {
+          console.log(routeData);
+          this.page = routeData.page || 'view1';
+        },
+
+        _pageChanged: function(page) {
+            console.log(page);
+          // Load page import on demand. Show 404 page if fails
+          var resolvedPageUrl = this.resolveUrl(page + '.html');
+          this.importHref(resolvedPageUrl, null, this._showPage404, true);
+        },
+
+        _showPage404: function() {
+          this.page = 'view404';
+        },
+    });
 </script>
 
 
