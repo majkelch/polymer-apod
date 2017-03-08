@@ -1,0 +1,54 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-selector/iron-selector.html">
+
+
+
+<dom-module id="l-menu">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+            .drawer-list {
+              margin: 0 20px;
+            }
+
+            .drawer-list a {
+              display: block;
+              padding: 0 16px;
+              text-decoration: none;
+              color: var(--app-secondary-color);
+              line-height: 40px;
+            }
+
+            .drawer-list a.iron-selected {
+              color: black;
+              font-weight: bold;
+            }
+        </style>
+
+        <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
+          <a name="today-apod" href="/today-apod">Today's APOD</a>
+          <a name="view-2" href="/view-2">View Two</a>
+          <a name="view-3" href="/view-3">View Three</a>
+        </iron-selector>
+
+
+    </template>
+
+    <script>
+        Polymer({
+            is: 'l-menu',
+
+            properties: {
+                page: {
+                    type: String,
+                    value: 'today-apod',
+                    notify: true
+                }
+            }
+
+        });
+    </script>
+
+</dom-module>

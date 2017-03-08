@@ -7,7 +7,6 @@
     <style>
       :host {
         display: block;
-
         padding: 10px;
       }
     </style>
@@ -20,12 +19,13 @@
             last-response="{{ajaxResponse}}"
         ></iron-ajax>
 
+        <p hidden$="{{!loading}}">Loading...</p>
+
         <div hidden$="{{loading}}">
-            to jest tekst zeby zobaczyć
-                <h2>{{ajaxResponse.title}}</h2>
-                <p>{{ajaxResponse.date}}</p>
-                <p>{{ajaxResponse.explanation}}</p>
-                <p><img src="{{ajaxResponse.url}}"></p>
+            <h2>{{ajaxResponse.title}}</h2>
+            <p>{{ajaxResponse.date}}</p>
+            <p>{{ajaxResponse.explanation}}</p>
+            <p><img src="{{ajaxResponse.url}}"></p>
         </div>
     </div>
 
