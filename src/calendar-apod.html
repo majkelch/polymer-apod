@@ -1,0 +1,68 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-date-picker/paper-date-picker.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+
+
+<dom-module id="calendar-apod">
+  <template>
+    <style>
+      :host {
+        display: block;
+
+        padding: 10px;
+      }
+    </style>
+
+    <paper-date-picker date="{{date}}" max-date="[[today]]"></paper-date-picker>
+[[formatted]]
+
+      <h1>[[date]]</h1>
+
+      <div class="card">
+          <iron-ajax
+              auto
+              url='https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY&date=[[formatted]]'
+              loading="{{loading}}"
+              last-response="{{ajaxResponse}}"
+          ></iron-ajax>
+
+          <p hidden$="{{!loading}}">Loading...</p>
+
+          <div hidden$="{{loading}}">
+              <h2>{{ajaxResponse.title}}</h2>
+              <p>{{ajaxResponse.date}}</p>
+              <p>{{ajaxResponse.explanation}}</p>
+              <p><img src="{{ajaxResponse.url}}"></p>
+          </div>
+      </div>
+  </template>
+
+  <script>
+    Polymer({
+      is: 'calendar-apod',
+
+      properties: {
+          date: {
+            type: Date,
+            notify: true,
+            value: new Date(),
+            observer: '_dateChanged'
+          },
+          formatted: {
+              type: Date,
+          },
+          today: {
+              type: Date,
+              value: new Date()
+          }
+
+
+      },
+
+      _dateChanged: function(date, oldValue) {
+          this.date = date;
+          this.formatted = moment(date).format('YYYY-MM-DD');
+      }
+    });
+  </script>
+</dom-module>

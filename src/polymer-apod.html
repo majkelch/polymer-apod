@@ -47,7 +47,7 @@
       fallback-selection="view-404"
       role="main">
         <today-apod name="today-apod"></today-apod>
-        <view-2 name="view-2"></view-2>
+        <calendar-apod name="calendar-apod"></calendar-apod>
         <view-3 name="view-3"></view-3>
         <view-404 name="view-404"></view-404>
     </iron-pages>
@@ -72,7 +72,7 @@
 
         _routePageChanged: function(routeData) {
           console.log(routeData);
-          this.page = routeData.page || 'view-1';
+          this.page = routeData.page || 'calendar-apod';
         },
 
         _pageChanged: function(page) {
