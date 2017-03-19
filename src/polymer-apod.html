@@ -5,28 +5,30 @@
 <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
 
-
 <link rel="import" href="../layout/l-menu.html">
+
 <dom-module id="polymer-apod">
     <template>
-
     <style>
-      :host {
-        --app-primary-color: #4285f4;
-        --app-secondary-color: black;
-
-        display: block;
-      }
-
-      app-header {
-        color: #fff;
-        background-color: var(--app-primary-color);
-      }
-      app-header paper-icon-button {
-        --paper-icon-button-ink-color: white;
-      }
-
-
+        :host {
+            font-family: 'Roboto';
+        }
+        .container {
+          display: flex;
+          align-items: flex-start;
+          width: 100%;
+        }
+        .container > * {
+            margin: 10px;
+            padding: 10px;
+        }
+        l-menu {
+          min-width: 150px;
+          border: 1px solid red;
+        }
+        iron-pages {
+         border: 1px solid green;
+        }
     </style>
 
     <app-location route="{{route}}"></app-location>
@@ -37,54 +39,56 @@
         tail="{{subroute}}">
     </app-route>
 
+    <h1>Polymer APOD</h1>
 
-    <l-menu page="[[page]]"></l-menu>
-    <div main-title>App name</div>
+    <div class="container">
+        <l-menu page="[[page]]"></l-menu>
 
-    <iron-pages
-      selected="[[page]]"
-      attr-for-selected="name"
-      fallback-selection="view-404"
-      role="main">
-        <today-apod name="today-apod"></today-apod>
-        <calendar-apod name="calendar-apod"></calendar-apod>
-        <view-3 name="view-3"></view-3>
-        <view-404 name="view-404"></view-404>
-    </iron-pages>
+        <iron-pages
+          selected="[[page]]"
+          attr-for-selected="name"
+          fallback-selection="view-404"
+          role="main">
+            <today-apod name="today-apod"></today-apod>
+            <calendar-apod name="calendar-apod"></calendar-apod>
+            <view-404 name="view-404"></view-404>
+        </iron-pages>
+    </div>
+
 
 </template>
 
-<script>
-    Polymer({
-        is: 'polymer-apod',
-        properties: {
-          page: {
-            type: String,
-            reflectToAttribute: true,
-            observer: '_pageChanged',
-          },
-        },
+    <script>
+        Polymer({
+            is: 'polymer-apod',
+            properties: {
+                page: {
+                    type: String,
+                    reflectToAttribute: true,
+                    observer: '_pageChanged',
+                },
+            },
 
-        observers: [
-          '_routePageChanged(routeData)'
-        ],
+            observers: [
+                '_routePageChanged(routeData)'
+            ],
 
 
-        _routePageChanged: function(routeData) {
-          this.page = routeData.page || 'calendar-apod';
-        },
+            _routePageChanged: function(routeData) {
+                this.page = routeData.page || 'calendar-apod';
+            },
 
-        _pageChanged: function(page) {
-          // Load page import on demand. Show 404 page if fails
-          var resolvedPageUrl = this.resolveUrl(page + '.html');
-          this.importHref(resolvedPageUrl, null, this._showPage404, true);
-        },
+            _pageChanged: function(page) {
+                // Load page import on demand. Show 404 page if fails
+                var resolvedPageUrl = this.resolveUrl(page + '.html');
+                this.importHref(resolvedPageUrl, null, this._showPage404, true);
+            },
 
-        _showPage404: function() {
-          this.page = 'view-404';
-        },
-    });
-</script>
+            _showPage404: function() {
+                this.page = 'view-404';
+            },
+        });
+    </script>
 
 
 </dom-module>

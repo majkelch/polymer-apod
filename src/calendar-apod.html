@@ -5,68 +5,55 @@
 
 <dom-module id="calendar-apod">
     <template>
-    <style>
-    :host {
-        display: block;
-        font-family: 'Roboto';
-    }
-    </style>
-    <paper-date-picker
-    date="{{date}}"
-    min-date="Jan 1, 2000"
-    max-date="[[today]]">
-</paper-date-picker>
 
+        <paper-date-picker date="{{date}}" min-date="Jan 1, 2000" max-date="[[today]]"></paper-date-picker>
 
-<h1>[[date]]</h1>
+        <div class="content">
+            <iron-ajax
+                auto
+                url='https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY&date=[[formatted]]'
+                loading="{{loading}}"
+                last-response="{{ajaxResponse}}"
+            ></iron-ajax>
 
+            <h1>[[date]]</h1>
 
+            <p hidden$="{{!loading}}">Loading...</p>
 
-<div class="card">
-    <iron-ajax
-    auto
-    url='https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY&date=[[formatted]]'
-    loading="{{loading}}"
-    last-response="{{ajaxResponse}}"
-    ></iron-ajax>
+            <div hidden$="{{loading}}">
+                <h2>{{ajaxResponse.title}}</h2>
+                <p>{{ajaxResponse.date}}</p>
+                <p>{{ajaxResponse.explanation}}</p>
+                <p><img src="{{ajaxResponse.url}}"></p>
+            </div>
+        </div>
 
-    <p hidden$="{{!loading}}">Loading...</p>
+    </template>
 
-    <div hidden$="{{loading}}">
-        <h2>{{ajaxResponse.title}}</h2>
-        <p>{{ajaxResponse.date}}</p>
-        <p>{{ajaxResponse.explanation}}</p>
-        <p><img src="{{ajaxResponse.url}}"></p>
-    </div>
-</div>
-</template>
+    <script type="text/javascript">
+        Polymer({
+            is: 'calendar-apod',
 
-<script type="text/javascript">
-Polymer({
-    is: 'calendar-apod',
+            properties: {
+                date: {
+                    type: Date,
+                    notify: true,
+                    value: new Date(),
+                    observer: '_dateChanged'
+                },
+                formatted: {
+                    type: Date,
+                },
+                today: {
+                    type: Date,
+                    value: new Date()
+                }
+            },
 
-    properties: {
-        date: {
-            type: Date,
-            notify: true,
-            value: new Date(),
-            observer: '_dateChanged'
-        },
-        formatted: {
-            type: Date,
-        },
-        today: {
-            type: Date,
-            value: new Date()
-        }
-    },
-
-    _dateChanged: function(date, oldValue) {
-        this.date = date;
-        this.formatted = moment(date).format('YYYY-MM-DD');
-    }
-});
-
-
-</script>
+            _dateChanged: function(date, oldValue) {
+                this.date = date;
+                this.formatted = moment(date).format('YYYY-MM-DD');
+            }
+        });
+    </script>
 </dom-module>
