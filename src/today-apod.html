@@ -3,7 +3,7 @@
 
 
 <dom-module id="today-apod">
-  <template>
+    <template>
     <style>
       :host {
         display: block;
@@ -31,29 +31,19 @@
 
   </template>
 
-  <script>
-    Polymer({
-      is: 'today-apod',
+    <script>
+        Polymer({
+            is: 'today-apod',
 
 
-      setajax: function () {
-          console.log('this.$', this.$);
-          this.$.xhr.send({
-              url: 'https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY'
-          });
-        },
-        hresponse: function(request) {
-          console.log(request.detail.response);
-          console.log(this.$.ajax.lastResponse);
-      },
-        handleResponse: function(response) {
-            console.log('handleResponse', response);
-        },
-        ajaxResponse: function(response) {
-            console.log('response', response);
-            this.loading = false;
-
-        }
-    });
-  </script>
+            setajax: function() {
+                this.$.xhr.send({
+                    url: 'https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY'
+                });
+            },
+            ajaxResponse: function(response) {
+                this.loading = false;
+            }
+        });
+    </script>
 </dom-module>

@@ -71,12 +71,10 @@
 
 
         _routePageChanged: function(routeData) {
-          console.log(routeData);
           this.page = routeData.page || 'calendar-apod';
         },
 
         _pageChanged: function(page) {
-            console.log(page);
           // Load page import on demand. Show 404 page if fails
           var resolvedPageUrl = this.resolveUrl(page + '.html');
           this.importHref(resolvedPageUrl, null, this._showPage404, true);
